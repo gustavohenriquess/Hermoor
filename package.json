@@ -1,0 +1,11 @@
+{
+  "name": "Hermoor",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "repository": "https://github.com/gustavohenriquess/Hermoor.git",
+  "author": "Gustavo Henrique <gustavo._henrique@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.5.4"
+  }
+}
