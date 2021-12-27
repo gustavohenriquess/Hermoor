@@ -15,5 +15,11 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "npx eslint --ext .ts,.js",
+    "eslint:fix": "npx eslint . --ext .ts --fix",
+    "test": "jest"
   }
 }
