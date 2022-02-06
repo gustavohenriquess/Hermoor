@@ -7,7 +7,6 @@
   "license": "MIT",
   "dependencies": {
     "@types/moment": "^2.13.0",
-    "commitizen": "^4.2.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "moment": "^2.29.1",
@@ -24,6 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "babel-jest": "^27.4.5",
+    "commitizen": "^4.2.4",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
@@ -39,7 +39,7 @@
     "lint": "npx eslint --ext .ts,.js",
     "eslint:fix": "npx eslint . --ext .ts --fix",
     "test": "jest --coverage",
-    "dev": "tsnd -r dotenv/config --inspect --ignore-watch node_modules src/infra/http/server.ts"
+    "dev": "tsnd -r dotenv/config --inspect --ignore-watch node_modules operation/http/server.ts"
   },
   "config": {
     "commitizen": {
