@@ -1,1 +1,0 @@
-[Architecture](https://whimsical.com/hermoor-project-Q9ZTgy92fTbjbYSVY6SMjp)
