@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 
 @Controller('emailbox')
-export class EmailboxController {
+export class EmailBoxController {
   @Post()
   async create(@Body() emailbox: object): Promise<object> {
     return emailbox;

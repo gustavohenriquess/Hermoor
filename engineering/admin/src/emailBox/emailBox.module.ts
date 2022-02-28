@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { EmailboxController } from './emailbox.controller';
+import { EmailBoxController } from './emailBox.controller';
 
 @Module({
   imports: [],
-  controllers: [EmailboxController],
+  controllers: [EmailBoxController],
   providers: [],
 })
 export class EmailBoxModule {}
