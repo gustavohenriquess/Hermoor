@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import { EmailBoxFolder } from 'src/emailBoxFolder/emailBoxFolder.entity';
 
 @Table
 export class EmailBox extends Model<EmailBox> {
@@ -6,6 +7,10 @@ export class EmailBox extends Model<EmailBox> {
   name: string;
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   isActive: boolean;
+
+  //FKs
+  @HasMany(() => EmailBoxFolder)
+  emailBoxFolders: EmailBoxFolder[];
 
   //Sender
   @Column({ type: DataType.STRING(100) })

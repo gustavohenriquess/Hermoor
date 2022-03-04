@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { EmailBoxFolder } from '../../emailBoxFolder/emailBoxFolder.entity';
 import { EmailBox } from '../../emailBox/emailBox.entity';
 
 export const databaseProviders = [
@@ -13,7 +14,7 @@ export const databaseProviders = [
         password: process.env.PWD_DB,
         database: process.env.NAME_DB,
       });
-      sequelize.addModels([EmailBox]);
+      sequelize.addModels([EmailBox, EmailBoxFolder]);
       await sequelize.sync();
       return sequelize;
     },
