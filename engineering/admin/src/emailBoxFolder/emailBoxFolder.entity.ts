@@ -3,7 +3,6 @@ import {
   Column,
   Model,
   DataType,
-  HasMany,
   ForeignKey,
 } from 'sequelize-typescript';
 import { EmailBox } from 'src/emailBox/emailBox.entity';
