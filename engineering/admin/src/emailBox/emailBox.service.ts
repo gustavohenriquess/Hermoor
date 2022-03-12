@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { EmailBox } from './emailBox.entity';
+import { CreateDefaultFolders } from './useCase/createDefaultFolders';
 
 @Injectable()
 export class EmailBoxService {
   constructor(
     @Inject('EMAIL_BOX_REPOSITORY') private emailBoxRepository: typeof EmailBox,
+    private createDefaultFolders: CreateDefaultFolders,
   ) {}
 
   async getEmailBox(): Promise<Array<EmailBox>> {
@@ -15,8 +17,10 @@ export class EmailBoxService {
     return this.emailBoxRepository.findByPk<EmailBox>(id);
   }
 
-  async createEmailBox(emailbox: EmailBox) {
-    return this.emailBoxRepository.create<EmailBox>(emailbox);
+  async createEmailBox(emailbox: EmailBox): Promise<EmailBox> {
+    const emailBox = await this.emailBoxRepository.create<EmailBox>(emailbox);
+    await this.createDefaultFolders.createFolders(emailBox.id);
+    return emailBox;
   }
 
   async updateEmailBox(
