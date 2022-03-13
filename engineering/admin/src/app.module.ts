@@ -5,6 +5,8 @@ import { EmailBoxModule } from './emailBox/emailBox.module';
 import { EmailBoxFolderModule } from './emailBoxFolder/emailBoxFolder.module';
 import { DatabaseModule } from './infra/database/database.module';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ResponseInterceptor } from 'src/core/http/responseInterceptor';
 
 @Module({
   imports: [
@@ -14,6 +16,9 @@ import { ConfigModule } from '@nestjs/config/dist/config.module';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
+  ],
 })
 export class AppModule {}
