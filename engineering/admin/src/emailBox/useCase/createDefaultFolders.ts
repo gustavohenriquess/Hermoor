@@ -9,9 +9,11 @@ export class CreateDefaultFolders {
   ) {}
 
   async createFolders(emailBoxId: number): Promise<void> {
+    console.log(emailBoxId);
     // eslint-disable-next-line prefer-const
     for (let folder of defaultFolders) {
       folder.idEmailBox = emailBoxId;
+      console.log('Teste2', folder, emailBoxId);
       await this.emailBoxFolderRepository.create<EmailBoxFolder>(folder);
     }
   }
