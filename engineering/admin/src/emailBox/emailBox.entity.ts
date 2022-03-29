@@ -1,14 +1,12 @@
 import { Exclude, Expose } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { IsNomeDeUsuarioUnico } from './is-nome-de-usuario-unico';
 
-export class Usuario {
+export class EmailBox {
   id: number;
 
   @Expose({ name: 'username' })
   @IsNotEmpty({ message: 'nomeDeUsuario é obrigatório.' })
   @IsString({ message: 'nomeDeUsuario precisa ser uma string.' })
-  @IsNomeDeUsuarioUnico({ message: 'nomeDeUsuario precisa ser único' })
   nomeDeUsuario: string;
 
   @Expose({ name: 'email' })

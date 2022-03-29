@@ -7,17 +7,17 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { NestResponse } from './core/http/nest-response';
-import { NestResponseBuilder } from './core/http/nest-response-builder';
-import { Usuario } from './usuario.entity';
-import { UsuarioService } from './usuario.service';
+import { NestResponse } from '../../core/http/nest-response';
+import { NestResponseBuilder } from '../../core/http/nest-response-builder';
+import { EmailBox } from '../emailBox.entity';
+import { EmailBoxService } from '../emailBox.service';
 
 @Controller('emailBox')
-export class UsuarioController {
-  constructor(private usuarioService: UsuarioService) {}
+export class EmailBoxController {
+  constructor(private usuarioService: EmailBoxService) {}
 
   @Post()
-  public cria(@Body() usuario: Usuario): NestResponse {
+  public cria(@Body() usuario: EmailBox): NestResponse {
     const usuarioCriado = this.usuarioService.cria(usuario);
     return new NestResponseBuilder()
       .comStatus(HttpStatus.CREATED)
@@ -29,7 +29,7 @@ export class UsuarioController {
   @Get(':nomeDeUsuario')
   public buscaPorNomeDeUsuario(
     @Param('nomeDeUsuario') nomeDeUsuario: string,
-  ): Usuario {
+  ): EmailBox {
     const usuarioEncontrado =
       this.usuarioService.buscaPorNomeDeUsuario(nomeDeUsuario);
 

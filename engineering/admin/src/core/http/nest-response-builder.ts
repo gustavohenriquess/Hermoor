@@ -11,11 +11,11 @@ export class NestResponseBuilder {
     this.resposta.status = status;
     return this;
   }
-  public comHeaders(headers: Object) {
+  public comHeaders(headers: object) {
     this.resposta.headers = headers;
     return this;
   }
-  public comBody(body: Object) {
+  public comBody(body: object) {
     this.resposta.body = body;
     return this;
   }

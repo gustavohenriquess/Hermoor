@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Usuario } from './usuario.entity';
+import { EmailBox } from './emailBox.entity';
 
 @Injectable()
-export class UsuarioService {
+export class EmailBoxService {
   private usuarios = [
     {
       id: 1,
@@ -14,12 +14,12 @@ export class UsuarioService {
     },
   ];
 
-  public cria(usuario: Usuario): Usuario {
+  public cria(usuario: EmailBox): EmailBox {
     this.usuarios.push(usuario);
     return usuario;
   }
 
-  public buscaPorNomeDeUsuario(nomeDeUsuario: string): Usuario {
+  public buscaPorNomeDeUsuario(nomeDeUsuario: string): EmailBox {
     return this.usuarios.find(
       (usuario) => usuario.nomeDeUsuario === nomeDeUsuario,
     );
