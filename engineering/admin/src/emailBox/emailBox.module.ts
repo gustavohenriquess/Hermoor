@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { TransformInterceptorResponse } from '../core/http/transforma-resposta-interceptor';
+import { TransformInterceptorResponse } from '../core/infra/http/transforma-resposta-interceptor';
 import { EmailBoxController } from './infra/http/emailBox.controller';
 import { EmailBoxService } from './emailBox.service';
 

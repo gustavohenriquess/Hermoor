@@ -8,8 +8,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { NestResponse } from '../../../core/http/nest-response';
-import { NestResponseBuilder } from '../../../core/http/nest-response-builder';
+import { NestResponse } from '../../../core/infra/http/nest-response';
+import { NestResponseBuilder } from '../../../core/infra/http/nest-response-builder';
 import { EmailBox } from '../../databases/emailBox.entity';
 import { EmailBoxService } from '../../emailBox.service';
 
