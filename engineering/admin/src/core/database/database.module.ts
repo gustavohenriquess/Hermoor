@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { sequelizeProviders } from './sequilize.provider';
+import { sequelizeProviders } from './sequelize.provider';
 
 @Module({
   providers: [...sequelizeProviders],
