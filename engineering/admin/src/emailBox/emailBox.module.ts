@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { TransformaRespostaInterceptor } from '../core/http/transforma-resposta-interceptor';
-import { EmailBoxController } from './adapters/emailBox.controller';
+import { TransformInterceptorResponse } from '../core/http/transforma-resposta-interceptor';
+import { EmailBoxController } from './infra/http/emailBox.controller';
 import { EmailBoxService } from './emailBox.service';
 
 @Module({
@@ -9,7 +9,7 @@ import { EmailBoxService } from './emailBox.service';
   controllers: [EmailBoxController],
   providers: [
     EmailBoxService,
-    { provide: APP_INTERCEPTOR, useClass: TransformaRespostaInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: TransformInterceptorResponse },
   ],
 })
 export class EmailBoxModule {}

@@ -1,17 +1,16 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { FiltroDeExcecaoHttp } from './core/common/filtros/filtro-de-excexao-http.filter';
+import { HttpExceptionFilter } from './core/common/filtros/http-exception-filter.filter';
 import { EmailBoxModule } from './emailBox/emailBox.module';
-import { TransformaRespostaInterceptor } from './usuario/core/http/transforma-resposta-interceptor';
-import { UsuarioModule } from './usuario/usuario.module';
+import { TransformInterceptorResponse } from './core/http/transforma-resposta-interceptor';
 
 @Module({
-  imports: [UsuarioModule, EmailBoxModule],
+  imports: [EmailBoxModule],
   controllers: [],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
-    { provide: APP_INTERCEPTOR, useClass: TransformaRespostaInterceptor },
-    { provide: APP_FILTER, useClass: FiltroDeExcecaoHttp },
+    { provide: APP_INTERCEPTOR, useClass: TransformInterceptorResponse },
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
   ],
 })
 export class AppModule {}

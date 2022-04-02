@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { NestResponse } from './nest-response';
 
 @Injectable()
-export class TransformaRespostaInterceptor implements NestInterceptor {
+export class TransformInterceptorResponse implements NestInterceptor {
   private httpAdapter: AbstractHttpAdapter;
 
   constructor(adapterHost: HttpAdapterHost) {
@@ -22,27 +22,23 @@ export class TransformaRespostaInterceptor implements NestInterceptor {
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(
-      map((respostaDoControlador: NestResponse) => {
-        if (respostaDoControlador instanceof NestResponse) {
-          const contexto = context.switchToHttp();
-          const response = contexto.getResponse();
-          const { headers, status, body } = respostaDoControlador;
+      map((controllerResponse: NestResponse) => {
+        if (controllerResponse instanceof NestResponse) {
+          const httpContext = context.switchToHttp();
+          const response = httpContext.getResponse();
+          const { headers, status, body } = controllerResponse;
 
-          const nomeDosCabecalhos = Object.getOwnPropertyNames(headers);
+          const headersName = Object.getOwnPropertyNames(headers);
 
-          nomeDosCabecalhos.forEach(nomeDoCabecalho => {
-            const valorDoCabecalho = headers[nomeDoCabecalho];
-            this.httpAdapter.setHeader(
-              response,
-              nomeDoCabecalho,
-              valorDoCabecalho,
-            );
+          headersName.forEach((headerName) => {
+            const headerValue = headers[headerName];
+            this.httpAdapter.setHeader(response, headerName, headerValue);
           });
 
           this.httpAdapter.status(response, status);
           return body;
         }
-        return respostaDoControlador;
+        return controllerResponse;
       }),
     );
   }

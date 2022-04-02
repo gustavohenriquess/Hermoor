@@ -1,25 +1,25 @@
 import { NestResponse } from './nest-response';
 
 export class NestResponseBuilder {
-  private resposta: NestResponse = {
+  private response: NestResponse = {
     status: 200,
     headers: {},
     body: {},
   };
 
-  public comStatus(status: number) {
-    this.resposta.status = status;
+  public withStatus(status: number) {
+    this.response.status = status;
     return this;
   }
-  public comHeaders(headers: object) {
-    this.resposta.headers = headers;
+  public withHeaders(headers: object) {
+    this.response.headers = headers;
     return this;
   }
-  public comBody(body: object) {
-    this.resposta.body = body;
+  public withBody(body: object) {
+    this.response.body = body;
     return this;
   }
   build() {
-    return new NestResponse(this.resposta);
+    return new NestResponse(this.response);
   }
 }
