@@ -32,6 +32,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
               statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
               timeStamp: new Date().toISOString(),
               message: exception.message,
+              exception: exception.stack,
               path: request.path,
             },
           };

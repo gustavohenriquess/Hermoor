@@ -40,7 +40,7 @@ export class EmailBoxController {
   }
 
   @Get(':id')
-  async getById(@Param('id') id: string): Promise<NestResponse> {
+  async getById(@Param('id') id: number): Promise<NestResponse> {
     const emailBox = await this.emailBoxService.getById(id);
 
     return new NestResponseBuilder()
@@ -52,7 +52,7 @@ export class EmailBoxController {
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() emailBox: EmailBox,
   ): Promise<NestResponse> {
     const emailBoxUpdated = await this.emailBoxService.update(id, emailBox);
@@ -65,13 +65,12 @@ export class EmailBoxController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<NestResponse> {
-    const emailBoxDeleted = await this.emailBoxService.delete(id);
+  async delete(@Param('id') id: number): Promise<NestResponse> {
+    await this.emailBoxService.delete(id);
 
     return new NestResponseBuilder()
       .withStatus(HttpStatus.OK)
       .withHeaders({ location: `/emailbox/${id}` })
-      .withBody(emailBoxDeleted)
       .build();
   }
 }
