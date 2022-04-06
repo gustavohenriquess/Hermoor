@@ -9,8 +9,8 @@ import { emailBoxProviders } from './emailBox.providers';
   imports: [],
   controllers: [EmailBoxController],
   providers: [
-    ...emailBoxProviders,
     EmailBoxService,
+    ...emailBoxProviders,
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptorResponse },
   ],
 })
