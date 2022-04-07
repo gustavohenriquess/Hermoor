@@ -9,11 +9,12 @@ import { EmailBox } from './databases/emailBox.entity';
 @Injectable()
 export class EmailBoxService {
   private emailBoxList = [{ id: 1, name: 'emailBox1' }];
-  constructor() {} // @Inject('EMAIL_BOX_REPOSITORY') private emailBoxRepository: typeof EmailBox,
+  // constructor() {} // @Inject('EMAIL_BOX_REPOSITORY') private emailBoxRepository: typeof EmailBox,
 
   async create(emailBox: EmailBox): Promise<EmailBox> {
+    await this.emailBoxList.push(emailBox);
     // return this.emailBoxRepository.create<EmailBox>(emailBox);
-    return;
+    return emailBox;
   }
 
   async getById(id: number): Promise<EmailBox> {
@@ -25,7 +26,10 @@ export class EmailBoxService {
     //   });
     // }
     // return emailBox;
-    return;
+    const emailBox = await this.emailBoxList.find(
+      (emailBox) => emailBox.id === id,
+    );
+    return emailBox;
   }
 
   async getAll(): Promise<EmailBox[]> {

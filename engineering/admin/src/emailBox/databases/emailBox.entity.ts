@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 export class EmailBox {
+  id: number;
   @IsString({ message: 'the field EmailBox.name must be the type string.' })
   @IsNotEmpty({ message: 'the field EmailBox.name is required.' })
   name: string;
