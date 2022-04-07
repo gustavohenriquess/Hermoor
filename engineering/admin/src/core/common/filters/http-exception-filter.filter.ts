@@ -36,7 +36,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
               path: request.path,
             },
           };
-
+    console.log(exception.stack);
     this.httpAdapter.reply(response, body, status);
   }
 }
