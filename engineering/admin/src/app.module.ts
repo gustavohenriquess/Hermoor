@@ -1,24 +1,17 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpExceptionFilter } from './core/common/filters/http-exception-filter.filter';
 import { EmailBoxModule } from './emailBox/emailBox.module';
-import { EmailBoxFolderModule } from './emailBoxFolder/emailBoxFolder.module';
-import { DatabaseModule } from './infra/database/database.module';
+import { TransformInterceptorResponse } from './core/infra/http/transforma-resposta-interceptor';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ResponseInterceptor } from 'src/core/http/responseInterceptor';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    EmailBoxModule,
-    EmailBoxFolderModule,
-    DatabaseModule,
-  ],
-  controllers: [AppController],
+  imports: [ConfigModule.forRoot(), EmailBoxModule],
+  controllers: [],
   providers: [
-    AppService,
-    { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: TransformInterceptorResponse },
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
   ],
 })
 export class AppModule {}

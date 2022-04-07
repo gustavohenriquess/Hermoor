@@ -1,39 +1,73 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { EmailBox } from './emailBox.entity';
-import { CreateDefaultFolders } from './useCase/createDefaultFolders';
+import {
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { EmailBox } from './databases/emailBox.entity';
 
 @Injectable()
 export class EmailBoxService {
   constructor(
-    @Inject('EMAIL_BOX_REPOSITORY') private emailBoxRepository: typeof EmailBox,
-    private createDefaultFolders: CreateDefaultFolders,
+    @Inject('EMAIL_BOX_REPOSITORY')
+    private emailBoxRepository: Repository<EmailBox>,
   ) {}
 
-  async getEmailBox(): Promise<Array<EmailBox>> {
-    return this.emailBoxRepository.findAll<EmailBox>();
+  async create(emailBox: EmailBox): Promise<EmailBox> {
+    const emailbox = await this.emailBoxRepository.save(emailBox);
+    return emailbox;
   }
 
-  async getEmailBoxById(id: number): Promise<EmailBox> {
-    return this.emailBoxRepository.findByPk<EmailBox>(id);
-  }
-
-  async createEmailBox(emailbox: EmailBox): Promise<EmailBox> {
-    const emailBox = await this.emailBoxRepository.create<EmailBox>(emailbox);
-    await this.createDefaultFolders.createFolders(emailBox.id);
+  async getById(id: number): Promise<EmailBox> {
+    const emailBox = await this.emailBoxRepository.findOneBy({ id: id });
+    if (!emailBox) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'emailbox.notFound',
+      });
+    }
     return emailBox;
   }
 
-  async updateEmailBox(
-    id: number,
-    emailbox: EmailBox,
-  ): Promise<[affectedCount: number]> {
-    return this.emailBoxRepository.update<EmailBox>(emailbox, {
-      where: { id },
-    });
+  async getAll(): Promise<EmailBox[]> {
+    return;
+    // return await this.emailBoxRepository.findAll<EmailBox>();
   }
 
-  async deleteEmailBox(id: number): Promise<void> {
-    const emailBox: EmailBox = await this.getEmailBoxById(id);
-    emailBox.destroy();
+  async update(id: number, emailBox: EmailBox): Promise<EmailBox> {
+    this.checkIdAndEmailBoxId(id, emailBox.id);
+
+    const emailBoxData = await this.getById(emailBox.id);
+    if (!emailBoxData) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'emailbox.notFound',
+      });
+    }
+
+    return emailBoxData;
+    // return await emailBoxData.update(emailBox);
+  }
+
+  async delete(id: number): Promise<void> {
+    const emailBox = await this.getById(id);
+    if (!emailBox) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'emailbox.notFound',
+      });
+    }
+    return;
+    // return await emailBox.destroy();
+  }
+
+  private checkIdAndEmailBoxId(id: number, emailBoxId: number): void {
+    if (id !== emailBoxId) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'emailbox.idNotMatch',
+      });
+    }
   }
 }

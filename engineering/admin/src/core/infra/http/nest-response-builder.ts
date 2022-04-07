@@ -1,4 +1,4 @@
-import { NestResponse } from './nestResponse';
+import { NestResponse } from './nest-response';
 
 export class NestResponseBuilder {
   private response: NestResponse = {

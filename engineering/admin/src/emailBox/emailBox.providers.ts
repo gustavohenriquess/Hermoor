@@ -1,13 +1,10 @@
-import { EmailBox } from './emailBox.entity';
-import { EmailBoxFolder } from 'src/emailBoxFolder/emailBoxFolder.entity';
+import { Connection } from 'typeorm';
+import { EmailBox } from './databases/emailBox.entity';
 
 export const emailBoxProviders = [
   {
     provide: 'EMAIL_BOX_REPOSITORY',
-    useValue: EmailBox,
-  },
-  {
-    provide: 'EMAIL_BOX_FOLDER_REPOSITORY',
-    useValue: EmailBoxFolder,
+    useFactory: (connection: Connection) => connection.getRepository(EmailBox),
+    inject: ['DATABASE_CONNECTION'],
   },
 ];

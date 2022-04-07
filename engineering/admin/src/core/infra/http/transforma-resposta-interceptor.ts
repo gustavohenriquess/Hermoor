@@ -7,10 +7,10 @@ import {
 import { AbstractHttpAdapter, HttpAdapterHost } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NestResponse } from './nestResponse';
+import { NestResponse } from './nest-response';
 
 @Injectable()
-export class ResponseInterceptor implements NestInterceptor {
+export class TransformInterceptorResponse implements NestInterceptor {
   private httpAdapter: AbstractHttpAdapter;
 
   constructor(adapterHost: HttpAdapterHost) {
@@ -22,23 +22,23 @@ export class ResponseInterceptor implements NestInterceptor {
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(
-      map((ControllerResponse: NestResponse) => {
-        if (ControllerResponse instanceof NestResponse) {
-          const contextHttp = context.switchToHttp();
-          const response = contextHttp.getResponse();
-          const { headers, status, body } = ControllerResponse;
+      map((controllerResponse: NestResponse) => {
+        if (controllerResponse instanceof NestResponse) {
+          const httpContext = context.switchToHttp();
+          const response = httpContext.getResponse();
+          const { headers, status, body } = controllerResponse;
 
-          const headersNames = Object.getOwnPropertyNames(headers);
+          const headersName = Object.getOwnPropertyNames(headers);
 
-          headersNames.forEach((headerName) => {
-            const headersValues = headers[headerName];
-            this.httpAdapter.setHeader(response, headerName, headersValues);
+          headersName.forEach((headerName) => {
+            const headerValue = headers[headerName];
+            this.httpAdapter.setHeader(response, headerName, headerValue);
           });
 
           this.httpAdapter.status(response, status);
           return body;
         }
-        return ControllerResponse;
+        return controllerResponse;
       }),
     );
   }
