@@ -4,9 +4,10 @@ import { HttpExceptionFilter } from './core/common/filters/http-exception-filter
 import { EmailBoxModule } from './emailBox/emailBox.module';
 import { TransformInterceptorResponse } from './core/infra/http/transforma-resposta-interceptor';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
+import { DatabaseModule } from './core/database/database.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), EmailBoxModule],
+  imports: [ConfigModule.forRoot(), EmailBoxModule, DatabaseModule],
   controllers: [],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },

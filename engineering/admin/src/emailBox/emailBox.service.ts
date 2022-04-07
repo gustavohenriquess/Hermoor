@@ -14,15 +14,13 @@ export class EmailBoxService {
   ) {}
 
   async create(emailBox: EmailBox): Promise<EmailBox> {
-    // return this.emailBoxRepository.create<EmailBox>(emailBox);
-    console.log('Gustavo:', emailBox.name);
-    await this.emailBoxList.push(emailBox);
-    return emailBox;
+    console.log(emailBox.name);
+    emailBox.name = 'jose';
+    return this.emailBoxRepository.create<EmailBox>(emailBox);
   }
 
   async getById(id: number): Promise<EmailBox> {
     // const emailBox = await this.emailBoxRepository.findByPk(id);
-
     // if (!emailBox) {
     //   throw new NotFoundException({
     //     statusCode: HttpStatus.NOT_FOUND,
@@ -30,7 +28,7 @@ export class EmailBoxService {
     //   });
     // }
     // return emailBox;
-    return this.emailBoxList.find((emailBox) => emailBox.id === id);
+    return;
   }
 
   async getAll(): Promise<EmailBox[]> {

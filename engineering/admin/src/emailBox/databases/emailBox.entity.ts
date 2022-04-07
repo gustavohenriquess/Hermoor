@@ -6,12 +6,13 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
+import { Column, Model, Table } from 'sequelize-typescript';
 
-export class EmailBox {
-  id: number;
-
+@Table
+export class EmailBox extends Model<EmailBox> {
   @IsString({ message: 'the field EmailBox.name must be the type string.' })
   @IsNotEmpty({ message: 'the field EmailBox.name is required.' })
+  @Column
   name: string;
 
   // @IsBoolean({
