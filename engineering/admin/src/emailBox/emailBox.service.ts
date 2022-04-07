@@ -4,31 +4,29 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { EmailBox } from './databases/emailBox.entity';
 
 @Injectable()
 export class EmailBoxService {
-  private emailBoxList = [{ id: 1, name: 'emailBox1' }];
-  // constructor() {} // @Inject('EMAIL_BOX_REPOSITORY') private emailBoxRepository: typeof EmailBox,
+  constructor(
+    @Inject('EMAIL_BOX_REPOSITORY')
+    private emailBoxRepository: Repository<EmailBox>,
+  ) {}
 
   async create(emailBox: EmailBox): Promise<EmailBox> {
-    await this.emailBoxList.push(emailBox);
-    // return this.emailBoxRepository.create<EmailBox>(emailBox);
-    return emailBox;
+    const emailbox = await this.emailBoxRepository.save(emailBox);
+    return emailbox;
   }
 
   async getById(id: number): Promise<EmailBox> {
-    // const emailBox = await this.emailBoxRepository.findByPk(id);
-    // if (!emailBox) {
-    //   throw new NotFoundException({
-    //     statusCode: HttpStatus.NOT_FOUND,
-    //     message: 'emailbox.notFound',
-    //   });
-    // }
-    // return emailBox;
-    const emailBox = await this.emailBoxList.find(
-      (emailBox) => emailBox.id === id,
-    );
+    const emailBox = await this.emailBoxRepository.findOneBy({ id: id });
+    if (!emailBox) {
+      throw new NotFoundException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'emailbox.notFound',
+      });
+    }
     return emailBox;
   }
 
