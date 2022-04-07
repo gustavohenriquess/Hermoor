@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { EmailBox } from './databases/emailBox.entity';
@@ -24,15 +25,14 @@ export class EmailBoxService {
     if (!emailBox) {
       throw new NotFoundException({
         statusCode: HttpStatus.NOT_FOUND,
-        message: 'emailbox.notFound',
+        message: 'email.box.not.found',
       });
     }
     return emailBox;
   }
 
-  async getAll(): Promise<EmailBox[]> {
-    return;
-    // return await this.emailBoxRepository.findAll<EmailBox>();
+  async getAll(): Promise<[EmailBox[], number]> {
+    return await this.emailBoxRepository.findAndCount();
   }
 
   async update(id: number, emailBox: EmailBox): Promise<EmailBox> {
@@ -42,12 +42,12 @@ export class EmailBoxService {
     if (!emailBoxData) {
       throw new NotFoundException({
         statusCode: HttpStatus.NOT_FOUND,
-        message: 'emailbox.notFound',
+        message: 'email.box.not.found',
       });
     }
+    await this.emailBoxRepository.update({ id }, emailBox);
 
-    return emailBoxData;
-    // return await emailBoxData.update(emailBox);
+    return;
   }
 
   async delete(id: number): Promise<void> {
@@ -55,18 +55,20 @@ export class EmailBoxService {
     if (!emailBox) {
       throw new NotFoundException({
         statusCode: HttpStatus.NOT_FOUND,
-        message: 'emailbox.notFound',
+        message: 'email.box.not.found',
       });
     }
+
+    await this.emailBoxRepository.delete({ id });
+
     return;
-    // return await emailBox.destroy();
   }
 
   private checkIdAndEmailBoxId(id: number, emailBoxId: number): void {
     if (id !== emailBoxId) {
-      throw new NotFoundException({
+      throw new BadRequestException({
         statusCode: HttpStatus.NOT_FOUND,
-        message: 'emailbox.idNotMatch',
+        message: 'email.box.id.not.equals',
       });
     }
   }

@@ -23,19 +23,19 @@ export class EmailBoxController {
 
     return new NestResponseBuilder()
       .withStatus(HttpStatus.CREATED)
-      .withHeaders({ location: `/emailbox/${emailBoxCreated.name}` })
+      .withHeaders({ location: `/emailbox/${emailBoxCreated.id}` })
       .withBody(emailBoxCreated)
       .build();
   }
 
   @Get()
   async getAll(): Promise<NestResponse> {
-    const emailBoxes = await this.emailBoxService.getAll();
+    const [emailBoxes, counter] = await this.emailBoxService.getAll();
 
     return new NestResponseBuilder()
       .withStatus(HttpStatus.OK)
       .withHeaders({ location: `/emailbox` })
-      .withBody(emailBoxes)
+      .withBody({ emailBoxes, counter })
       .build();
   }
 
@@ -45,7 +45,7 @@ export class EmailBoxController {
 
     return new NestResponseBuilder()
       .withStatus(HttpStatus.OK)
-      .withHeaders({ location: `/emailbox/${emailBox.name}` })
+      .withHeaders({ location: `/emailbox/${emailBox.id}` })
       .withBody(emailBox)
       .build();
   }
@@ -55,12 +55,11 @@ export class EmailBoxController {
     @Param('id') id: number,
     @Body() emailBox: EmailBox,
   ): Promise<NestResponse> {
-    const emailBoxUpdated = await this.emailBoxService.update(id, emailBox);
+    await this.emailBoxService.update(id, emailBox);
 
     return new NestResponseBuilder()
-      .withStatus(HttpStatus.OK)
-      .withHeaders({ location: `/emailbox/${emailBoxUpdated.name}` })
-      .withBody(emailBoxUpdated)
+      .withStatus(HttpStatus.NO_CONTENT)
+      .withHeaders({ location: `/emailbox/${id}` })
       .build();
   }
 
@@ -69,7 +68,7 @@ export class EmailBoxController {
     await this.emailBoxService.delete(id);
 
     return new NestResponseBuilder()
-      .withStatus(HttpStatus.OK)
+      .withStatus(HttpStatus.NO_CONTENT)
       .withHeaders({ location: `/emailbox/${id}` })
       .build();
   }
