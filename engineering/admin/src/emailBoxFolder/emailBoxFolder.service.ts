@@ -24,6 +24,7 @@ export class EmailBoxFolderService {
     const emailBoxFolderData = await this.emailBoxFolderRepository.save(
       emailBoxFolder,
     );
+
     return emailBoxFolderData;
   }
 
