@@ -5,7 +5,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { EmailBox } from 'src/emailBox/databases/emailBox.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class EmailBoxFolder {
@@ -29,5 +30,6 @@ export class EmailBoxFolder {
 
   @IsNumber()
   @Column({ type: 'integer' })
+  @ManyToOne(() => EmailBox, (emailBox) => emailBox.emailBoxFolders)
   idEmailBox: number;
 }

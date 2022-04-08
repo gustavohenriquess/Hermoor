@@ -7,7 +7,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { EmailBoxFolder } from 'src/emailBoxFolder/databases/emailBoxFolders.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class EmailBox {
@@ -27,8 +28,11 @@ export class EmailBox {
   isActive: boolean;
 
   // FKs;
-  // @HasMany(() => EmailBoxFolder)
-  // emailBoxFolders: EmailBoxFolder[];
+  @OneToMany(
+    () => EmailBoxFolder,
+    (emailBoxFolders) => emailBoxFolders.idEmailBox,
+  )
+  emailBoxFolders: EmailBoxFolder[];
 
   //Sender
   @IsString({
