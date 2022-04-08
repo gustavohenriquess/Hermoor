@@ -5,6 +5,7 @@ import { EmailBoxController } from './infra/http/emailBox.controller';
 import { EmailBoxService } from './emailBox.service';
 import { emailBoxProviders } from './emailBox.providers';
 import { DatabaseModule } from 'src/core/database/database.module';
+import { CreateDefaultFolders } from './useCase/createDefaultFolders';
 
 @Module({
   imports: [DatabaseModule],
@@ -12,6 +13,7 @@ import { DatabaseModule } from 'src/core/database/database.module';
   providers: [
     ...emailBoxProviders,
     EmailBoxService,
+    CreateDefaultFolders,
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptorResponse },
   ],
 })

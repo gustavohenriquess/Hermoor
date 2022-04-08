@@ -7,16 +7,19 @@ import {
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { EmailBox } from './databases/emailBox.entity';
+import { CreateDefaultFolders } from './useCase/createDefaultFolders';
 
 @Injectable()
 export class EmailBoxService {
   constructor(
     @Inject('EMAIL_BOX_REPOSITORY')
     private emailBoxRepository: Repository<EmailBox>,
+    private createDefaultFolders: CreateDefaultFolders,
   ) {}
 
   async create(emailBox: EmailBox): Promise<EmailBox> {
     const emailbox = await this.emailBoxRepository.save(emailBox);
+    await this.createDefaultFolders.createFolders(emailbox.id);
     return emailbox;
   }
 
