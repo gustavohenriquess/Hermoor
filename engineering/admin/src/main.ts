@@ -11,6 +11,6 @@ async function bootstrap() {
     }),
   );
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  await app.listen(3001);
+  await app.listen(process.env.PORT_SRV || 3001);
 }
 bootstrap();
